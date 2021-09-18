@@ -1,0 +1,261 @@
+﻿<Page x:Class="CaseMarkClient.CaseList"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:CaseMarkClient"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Loaded="Page_Loaded"
+      Title="CaseList">
+
+    <Page.Resources>
+        <local:DataConvert x:Key="dateconvert"></local:DataConvert>
+        <Style x:Key="headerStyle">
+            <Setter Property="TextBlock.FontWeight" Value="Bold"></Setter>
+            <Setter Property="TextBlock.FontFamily" Value="Sylfean"></Setter>
+            <Setter Property="TextBlock.FontSize" Value="14"></Setter>
+            <Setter Property="TextBlock.TextWrapping" Value="Wrap"></Setter>
+        </Style>
+    </Page.Resources>
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" MinWidth="1300" Margin="5 10">
+                <Grid Margin="0 0 25 0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="საქმის ნომერი" Margin="0 0 0 2" />
+                    <ComboBox Grid.Column="0" 
+                              Grid.Row="1" MinWidth="150" 
+                              SelectionChanged="CNumber_SelectionChanged"
+                              DisplayMemberPath="CaseNumber"
+                              x:Name="CNumber"
+                              IsEditable="True"
+                              />
+                </Grid>
+                <Grid Margin="0 0 25 0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="დასახელება" Margin="0 0 0 2" />
+                    <TextBox Grid.Column="0" 
+                             Grid.Row="1" 
+                             MinWidth="200"
+                             TextWrapping="Wrap"
+                             x:Name="CName"
+                             KeyUp="CName_KeyUp"
+                             />
+                </Grid>
+                <Grid Margin="0 0 25 0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="მხარეები" Margin="0 0 0 2" />
+                    <TextBox Grid.Column="0" 
+                             Grid.Row="1" 
+                             MinWidth="200"
+                             TextWrapping="Wrap"
+                             x:Name="CSides"
+                             KeyUp="CSides_KeyUp"
+                             />
+                </Grid>
+                <Grid Margin="25 0 0 0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="თარიღი" Margin="0 0 0 2" />
+                    <DatePicker Grid.Column="0" Grid.Row="1" MinWidth="150" 
+                                x:Name="caseDt" SelectedDateChanged="caseDt_SelectedDateChanged"
+                           
+                                >
+
+                    </DatePicker>
+                </Grid>
+            </StackPanel>
+        </Grid>
+
+        <DataGrid x:Name="caseLists" 
+                  AutoGenerateColumns="False"
+                  FontFamily="Sylfean" 
+                  HorizontalContentAlignment="Stretch"
+                  Padding="5,10" HorizontalGridLinesBrush="#FFE0DBDB" 
+                  VerticalGridLinesBrush="#FFDADADA" 
+                  AlternationCount="1" AlternatingRowBackground="#FFA0CFF5"
+                  VerticalAlignment="Top"
+                  Grid.Row="1" Grid.Column="0" IsReadOnly="True" 
+                  HorizontalAlignment="Stretch"
+                  VerticalScrollBarVisibility="Auto"
+                  MaxHeight="700" VerticalContentAlignment="Stretch"
+                  
+                  >
+
+            <DataGrid.Columns>
+
+                <DataGridTextColumn 
+                                    Binding="{Binding Path=CaseNumber}"
+                                    FontWeight="Bold" 
+                                    FontFamily="Sylfaen"
+                                    Foreground="DarkRed"
+                                    MaxWidth="100"
+                                    >
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="საქმის ნომერი"  Style="{StaticResource ResourceKey=headerStyle}">
+
+                        </TextBlock>
+                    </DataGridTextColumn.Header>
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="TextOptions.TextFormattingMode" Value="Display"></Setter>
+                            <Setter Property="MinHeight" Value="40"></Setter>
+                            <Setter Property="TextWrapping" Value="Wrap"></Setter>
+                            <Setter Property="Padding" Value="5"></Setter>
+                            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn  
+                                    Binding="{Binding Path=JUDGE.Name}"
+                                    FontFamily="Sylfean"
+                                    MaxWidth="120"
+                                    
+                                    Foreground="Black"
+                                   
+                                    >
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="მოსამართლე" Style="{StaticResource ResourceKey=headerStyle}"></TextBlock>
+                    </DataGridTextColumn.Header>
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="TextOptions.TextFormattingMode" Value="Display"></Setter>
+                            <Setter Property="Height" Value="Auto"></Setter>
+                            <Setter Property="MinHeight" Value="40"></Setter>
+                            <Setter Property="TextWrapping" Value="Wrap"></Setter>
+                            <Setter Property="Padding" Value="5"></Setter>
+                            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn  
+                                    Binding="{Binding Path=CaseName}"
+                                    FontFamily="Sylfean"
+                                    MaxWidth="120"
+                                    
+                                    Foreground="Black"
+                                   
+                                    >
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="დასახელება" Style="{StaticResource ResourceKey=headerStyle}"></TextBlock>
+                    </DataGridTextColumn.Header>
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="TextOptions.TextFormattingMode" Value="Display"></Setter>
+                            <Setter Property="Height" Value="Auto"></Setter>
+                            <Setter Property="MinHeight" Value="40"></Setter>
+                            <Setter Property="TextWrapping" Value="Wrap"></Setter>
+                            <Setter Property="Padding" Value="5"></Setter>
+                            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn  
+                                    Binding="{Binding Path=CaseSides}"
+                                    FontFamily="Sylfean"
+                                    MaxWidth="300"
+                                    Foreground="Black"
+                                    >
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="მხარეები" Style="{StaticResource ResourceKey=headerStyle}"></TextBlock>
+                    </DataGridTextColumn.Header>
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="TextOptions.TextFormattingMode" Value="Display"></Setter>
+                            <Setter Property="Height" Value="Auto"></Setter>
+                            <Setter Property="MinHeight" Value="40"></Setter>
+                            <Setter Property="TextWrapping" Value="Wrap"></Setter>
+                            <Setter Property="Padding" Value="5"></Setter>
+                            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn 
+                                    Binding="{Binding Path=Date,Converter={StaticResource dateconvert}}"
+                                    
+                                    >
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="შემდეგი მოსმენის თარიღი" Style="{StaticResource ResourceKey=headerStyle}"></TextBlock>
+                    </DataGridTextColumn.Header>
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="TextOptions.TextFormattingMode" Value="Display"></Setter>
+                            <Setter Property="Height" Value="Auto"></Setter>
+                            <Setter Property="MinHeight" Value="40"></Setter>
+                            <Setter Property="TextWrapping" Value="Wrap"></Setter>
+                            <Setter Property="Padding" Value="5"></Setter>
+                            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="რედაქტირება" Foreground="Blue" 
+                                        
+                                       Padding="2"
+                                       HorizontalAlignment="Center" 
+                                       FontFamily="Sylfaen" 
+                                       Cursor="Hand" 
+                                       VerticalAlignment="Center"
+                                       x:Name="editbtn"
+                                       Background="#00707070" BorderBrush="#00707070"
+                                       TextOptions.TextFormattingMode="Display"
+                                       Click="editbtn_Click"
+                                       Tag="{Binding}"
+                                       
+                                       />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="წაშლა" Foreground="Red" 
+                                       x:Name="deleteCaseBtn"
+                                       Padding="10 2"
+                                       HorizontalAlignment="Center"
+                                       FontFamily="Sylfaen" 
+                                       Cursor="Hand" 
+                                       TextOptions.TextFormattingMode="Display"
+                                       VerticalAlignment="Center" 
+                                       Background="#00000000" 
+                                       BorderBrush="#00707070"
+                                       Tag="{Binding}"
+                                       Click="deleteCaseBtn_Click"
+                                       />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="Background" Value="Azure"></Setter>
+
+                    <Setter Property="Height" Value="Auto"></Setter>
+                    <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+                    <Setter Property="TextBlock.TextWrapping" Value="WrapWithOverflow"></Setter>
+
+                </Style>
+            </DataGrid.RowStyle>
+
+        </DataGrid>
+    </Grid>
+</Page>
